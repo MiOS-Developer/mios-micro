@@ -1,54 +1,95 @@
 {
   "name": "mios-micro (MiOS devcontainer)",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "build": {
+    "dockerfile": "Containerfile",
+    "context": "..",
+    "args": {
+      "MIOS_IDENTITY_USERNAME": "user"
+    }
+  },
   "init": true,
   "containerEnv": {
+    "MIOS_AI_ENDPOINT": "http://localhost:8700/v1",
+    "MIOS_AI_ROLE": "builder",
+    "DEVLOOP_HARNESS": "embedded",
     "PYTHONUNBUFFERED": "1"
+  },
+  "remoteEnv": {
+    "PATH": "/opt/mios/bin:${containerEnv:PATH}",
+    "MIOS_NATIVE_BIN_DIR": "/opt/mios/bin"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:latest": {
+      "username": "user",
+      "userUid": "1000",
+      "userGid": "1000",
+      "upgradePackages": false
+    }
   },
   "customizations": {
     "vscode": {
       "settings": {
-        "containers.containerCommand": "podman",
-        "containers.environment": {
-          "DOCKER_HOST": "unix:///run/user/1000/podman/podman.sock"
-        },
-        "remote.extensionKind": {
-          "be5invis.vscode-custom-css": [
-            "ui"
-          ]
-        },
-        "workbench.colorTheme": "MiOS-Dev",
-        "workbench.experimental.modernUI": true,
-        "window.density.layout": "compact",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "git.autoRepositoryDetection": "subFolders",
+        "git.repositoryScanMaxDepth": 5,
+        "git.openRepositoryInParentFolders": "always",
         "workbench.layoutControl.enabled": false,
         "workbench.activityBar.location": "top",
-        "workbench.sideBar.location": "left",
+        "workbench.statusBar.visible": true,
         "workbench.secondarySideBar.defaultVisibility": "hidden",
         "workbench.panel.defaultLocation": "bottom",
         "workbench.panel.opensMaximized": "always",
-        "terminal.integrated.defaultLocation": "view",
+        "workbench.sideBar.location": "left",
         "workbench.editor.openSideBySideDirection": "down",
         "workbench.editor.splitInGroupLayout": "horizontal",
-        "editor.minimap.enabled": false,
+        "workbench.editor.showTabs": "single",
+        "workbench.tree.indent": 12,
+        "workbench.tree.renderIndentGuides": "none",
+        "workbench.tree.expandMode": "singleClick",
+        "workbench.list.smoothScrolling": true,
+        "explorer.autoReveal": false,
+        "zenMode.centerLayout": false,
+        "zenMode.hideActivityBar": true,
+        "zenMode.showTabs": "single",
         "editor.wordWrap": "on",
+        "editor.wordWrapColumn": 80,
+        "editor.wrappingStrategy": "advanced",
+        "editor.minimap.enabled": false,
         "editor.glyphMargin": false,
-        "editor.stickyScroll.enabled": false,
-        "editor.fontSize": 15,
         "editor.lineNumbers": "on",
+        "editor.lineNumbersMinChars": 3,
+        "editor.showFoldingControls": "never",
+        "editor.dragAndDrop": false,
+        "editor.fontSize": 15,
+        "editor.lineHeight": 19,
+        "editor.cursorWidth": 3,
+        "editor.cursorBlinking": "smooth",
+        "editor.mouseWheelZoom": true,
+        "editor.smoothScrolling": true,
+        "editor.mouseWheelScrollSensitivity": 2,
+        "editor.fastScrollSensitivity": 5,
+        "editor.renderWhitespace": "none",
+        "editor.guides.indentation": false,
+        "editor.overviewRulerBorder": false,
+        "editor.scrollbar.verticalScrollbarSize": 14,
+        "editor.scrollbar.horizontalScrollbarSize": 10,
+        "editor.autoClosingBrackets": "always",
+        "editor.autoClosingQuotes": "always",
+        "editor.selectionHighlight": false,
+        "editor.occurrencesHighlight": "off",
         "terminal.integrated.fontSize": 14,
-        "terminal.integrated.tabs.enabled": false,
-        "terminal.integrated.tabs.showActions": "never",
-        "terminal.integrated.tabs.showActiveTerminal": "never",
         "terminal.integrated.lineHeight": 1.0,
-        "terminal.integrated.letterSpacing": 0,
-        "terminal.integrated.customGlyphs": false,
-        "terminal.integrated.cursorBlinking": "never",
-        "terminal.integrated.cursorStyle": "line",
-        "terminal.integrated.cursorWidth": 1,
-        "terminal.integrated.gpuAcceleration": "on",
+        "terminal.integrated.wordWrap": true,
+        "terminal.integrated.scrollback": 10000,
         "terminal.integrated.smoothScrolling": false,
-        "terminal.integrated.shellIntegration.decorationsEnabled": "never",
-        "terminal.integrated.shellIntegration.enabled": false,
+        "terminal.integrated.mouseWheelScrollSensitivity": 2,
+        "terminal.integrated.gpuAcceleration": "on",
+        "breadcrumbs.enabled": true,
+        "breadcrumbs.filePath": "last",
+        "window.commandCenter": false,
+        "workbench.editor.tabActionLocation": "left",
+        "workbench.editor.labelFormat": "short",
         "workbench.colorCustomizations": {
           "window.border": "#00000000",
           "window.activeBorder": "#00000000",
@@ -117,14 +158,92 @@
           "scrollbarSlider.hoverBackground": "#00000000",
           "scrollbarSlider.activeBackground": "#00000000",
           "scrollbar.shadow": "#00000000"
-        }
+        },
+        "containers.containerCommand": "podman",
+        "containers.environment": {
+          "DOCKER_HOST": "unix:///run/user/1000/podman/podman.sock"
+        },
+        "remote.extensionKind": {
+          "be5invis.vscode-custom-css": [
+            "ui"
+          ]
+        },
+        "workbench.colorTheme": "MiOS-Dev",
+        "workbench.experimental.modernUI": true,
+        "window.density.layout": "compact",
+        "terminal.integrated.defaultLocation": "view",
+        "editor.stickyScroll.enabled": false,
+        "terminal.integrated.tabs.enabled": false,
+        "terminal.integrated.tabs.showActions": "never",
+        "terminal.integrated.tabs.showActiveTerminal": "never",
+        "terminal.integrated.letterSpacing": 0,
+        "terminal.integrated.customGlyphs": false,
+        "terminal.integrated.cursorBlinking": "never",
+        "terminal.integrated.cursorStyle": "line",
+        "terminal.integrated.cursorWidth": 1,
+        "terminal.integrated.shellIntegration.decorationsEnabled": "never",
+        "terminal.integrated.shellIntegration.enabled": false
       },
       "extensions": [
+        "rust-lang.rust-analyzer",
         "ms-python.python",
+        "ms-azuretools.vscode-containers",
         "redhat.vscode-yaml",
+        "ms-vscode.powershell",
+        "timonwong.shellcheck",
         "tamasfe.even-better-toml",
+        "eamodio.gitlens",
+        "usernamehw.errorlens",
         "editorconfig.editorconfig"
       ]
+    },
+    "codespaces": {
+      "repositories": {
+        "mios-dev/MiOS": {
+          "permissions": {
+            "contents": "write",
+            "pull_requests": "write",
+            "workflows": "write"
+          }
+        },
+        "mios-dev/mios-bootstrap": {
+          "permissions": {
+            "contents": "write",
+            "pull_requests": "write",
+            "workflows": "write"
+          }
+        },
+        "mios-dev/-dev-loop": {
+          "permissions": {
+            "contents": "write",
+            "pull_requests": "write",
+            "workflows": "write"
+          }
+        },
+        "mios-dev/mios-micro": {
+          "permissions": {
+            "contents": "write",
+            "pull_requests": "write",
+            "workflows": "write"
+          }
+        }
+      }
     }
+  },
+  "forwardPorts": [
+    8900,
+    8700,
+    8500,
+    8600
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/mios-micro",
+  "postCreateCommand": "bash -c 'if [ -f /workspaces/MiOS/.devcontainer/setup-devcontainer.sh ]; then bash /workspaces/MiOS/.devcontainer/setup-devcontainer.sh; else { git clone --depth 1 https://github.com/mios-dev/MiOS.git /workspaces/MiOS 2>/dev/null || true; } && bash /workspaces/MiOS/.devcontainer/setup-devcontainer.sh; fi'",
+  "postStartCommand": "bash -c 'if [ -d /workspaces/MiOS ]; then cd /workspaces/MiOS && bash .devcontainer/boot-mios-systems.sh start; else echo \"[devcontainer:post-start] /workspaces/MiOS is absent: MiOS lifecycle skipped (postCreateCommand clones it)\"; fi'",
+  "postAttachCommand": "code --execute-command workbench.action.closeSidebar",
+  "hostRequirements": {
+    "cpus": 16,
+    "memory": "64gb",
+    "storage": "128gb"
   }
 }
